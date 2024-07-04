@@ -1,59 +1,78 @@
-<!-- <div class="container-fluid">
-  <div class="row">
-    <div class="col-md-3" style="background-color: black;">
-        <div>
-          <mat-card>
-            <form action="">
-              <mat-form-field appearance="outline">
-                <mat-label>Outline form field</mat-label>
-                <input matInput placeholder="Placeholder">
-                <mat-icon matPrefix class="my-icon">sentiment_very_satisfied</mat-icon>
-                <mat-hint>Hint</mat-hint>
-              </mat-form-field>
-            </form>
-          </mat-card>
-        </div>
-    </div>
-    <div class="col-md-9">
-
-    </div>
-  </div>
-</div> -->
-<!-- <div class="container-fluid">
-  <div class="column" id="col1">
-    <div>
-      <mat-card>
-        <form action="">
-          <mat-form-field appearance="outline">
-            <mat-label>Outline form field</mat-label>
-            <input matInput placeholder="Placeholder">
-            <mat-icon matPrefix class="my-icon">sentiment_very_satisfied</mat-icon>
-            <mat-hint>Hint</mat-hint>
-          </mat-form-field>
-        </form>
-      </mat-card>
-    </div>
-  </div>
-  <div class="column" id="col2">Column 2</div>
-  <div class="column" id="col3">Column 3</div>
-  <div class="column" id="col4">Column 4</div>
-</div> -->
 <div class="container-90 h-100">
   <div class="row h-100">
       <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start" style="background-color: #2d2d2d;">
         <mat-card class="medium-card">
-          <form action="">
+          <form [formGroup]="todoForm">
             <mat-form-field appearance="outline">
               <mat-label>Nome da tarefa</mat-label>
-              <input matInput placeholder="">
+              <input matInput formControlName="item" placeholder="">
+              <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
             </mat-form-field>
-            <button mat-raised-button color="primary">Adicionar</button>
+            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="primary">Adicionar</button>
+            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="accent">Editar</button>
           </form>
         </mat-card>
       </div>
-      <div class="col-md-3 col-12 bg-primary text-white d-flex justify-content-center align-items-start">Column 2</div>
-      <div class="col-md-3 col-12 bg-success text-white d-flex justify-content-center align-items-start">Column 3</div>
-      <div class="col-md-3 col-12 bg-warning text-white d-flex justify-content-center align-items-start">Column 4</div>
+      <div class="col-md-6 col-12 bg-primary text-white d-flex justify-content-center align-items-start">
+        <div class="example-container mt-3">
+          <h2 class="head-title">Tarefas<span *ngIf="tarefas.length > 0"> - {{ tarefas.length }}</span></h2>
+          <div
+            cdkDropList
+            #todoList="cdkDropList"
+            [cdkDropListData]="tarefas"
+            [cdkDropListConnectedTo]="[emProgressoList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            @for (item of tarefas; track $index;) {
+              <div class="example-box" cdkDrag>{{item.descricao}}
+                <div class="box">
+                  <button mat-icon-button color="warn" (click)="deletarTarefa($index)"><mat-icon>delete</mat-icon></button>
+                  <button mat-icon-button color="primary" (click)="emEdicao(item, $index)"><mat-icon>edit</mat-icon></button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+        <div class="example-container mt-3">
+          <h2 class="head-title">Em Progresso<span *ngIf="emProgresso.length > 0"> - {{ emProgresso.length }}</span></h2>
+          <div
+            cdkDropList
+            #emProgressoList="cdkDropList"
+            [cdkDropListData]="emProgresso"
+            [cdkDropListConnectedTo]="[terminadoList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            @for (item of emProgresso; track $index) {
+              <div class="example-box" cdkDrag>{{item.descricao}}
+                <div class="box">
+                  <button mat-icon-button color="warn" (click)="deletarEmProgresso($index)"><mat-icon>delete</mat-icon></button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-12 bg-warning text-white d-flex justify-content-center align-items-start">
+        <div class="example-container">
+          <h2 class="head-title">Terminadas<span *ngIf="terminadas.length > 0"> - {{ terminadas.length }}</span></h2>
+          <div
+            cdkDropList
+            #terminadoList="cdkDropList"
+            [cdkDropListData]="terminadas"
+            [cdkDropListConnectedTo]="[todoList]"
+            class="example-list"
+            (cdkDropListDropped)="drop($event)">
+            @for (item of terminadas; track $index) {
+              <div class="example-box" cdkDrag>{{item.descricao}}
+                <div class="box">
+                  <button mat-icon-button color="warn" (click)="deletarTerminadas($index)"><mat-icon>delete</mat-icon></button>
+                  <button mat-icon-button style="color: #00e676;"><mat-icon>check_circle</mat-icon></button>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
   </div>
 </div>
 
