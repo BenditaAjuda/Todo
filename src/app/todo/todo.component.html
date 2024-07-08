@@ -1,6 +1,7 @@
+<app-navbar></app-navbar>
 <div class="container-90 h-100">
   <div class="row h-100">
-      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start" style="background-color: #2d2d2d;">
+      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start primeira-coluna">
         <mat-card class="medium-card">
           <form [formGroup]="todoForm">
             <mat-form-field appearance="outline">
@@ -8,14 +9,29 @@
               <input matInput formControlName="item" placeholder="">
               <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
             </mat-form-field>
+            <mat-form-field>
+              <mat-label>Favorite food</mat-label>
+              <mat-select>
+                @for (food of foods; track food) {
+                  <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
             <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="primary">Adicionar</button>
             <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="accent">Editar</button>
           </form>
         </mat-card>
       </div>
-      <div class="col-md-6 col-12 bg-primary text-white d-flex justify-content-center align-items-start">
-        <div class="example-container mt-3">
-          <h2 class="head-title">Tarefas<span *ngIf="tarefas.length > 0"> - {{ tarefas.length }}</span></h2>
+      <div class="col-md-6 col-12 text-white d-flex justify-content-center align-items-start segunda-coluna">
+        <div class="example-container">
+
+          <div class="row mb-3">
+            <div class="card">
+                <h4>Tarefas</h4>
+                <p *ngIf="tarefas.length > 0">Quantidade: {{ tarefas.length }}</p>
+            </div>
+          </div>
+
           <div
             cdkDropList
             #todoList="cdkDropList"
@@ -33,8 +49,15 @@
             }
           </div>
         </div>
-        <div class="example-container mt-3">
-          <h2 class="head-title">Em Progresso<span *ngIf="emProgresso.length > 0"> - {{ emProgresso.length }}</span></h2>
+        <div class="example-container">
+
+          <div class="row mb-3">
+            <div class="card">
+                <h4>Em Progresso</h4>
+                <p *ngIf="emProgresso.length > 0">Quantidade: {{ emProgresso.length }}</p>
+            </div>
+          </div>
+
           <div
             cdkDropList
             #emProgressoList="cdkDropList"
@@ -52,9 +75,17 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3 col-12 bg-warning text-white d-flex justify-content-center align-items-start">
+      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start terceira-coluna">
         <div class="example-container">
-          <h2 class="head-title">Terminadas<span *ngIf="terminadas.length > 0"> - {{ terminadas.length }}</span></h2>
+
+          <div class="row mb-3">
+            <div class="card2">
+                <h4>Terminadas</h4>
+                <p *ngIf="terminadas.length > 0">Quantidade: {{ terminadas.length }}</p>
+            </div>
+          </div>
+
+
           <div
             cdkDropList
             #terminadoList="cdkDropList"
@@ -75,5 +106,4 @@
       </div>
   </div>
 </div>
-
 
