@@ -7,10 +7,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './componentes/not-found/not-found.component';
 import { RecuperarContaComponent } from './recuperar-conta/recuperar-conta.component';
+import { ModalComponent } from './layout/modal/modal.component';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,10 +21,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { NgxSpinnerModule } from "ngx-spinner";
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+
 
 
 @NgModule({
@@ -31,6 +33,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     NotFoundComponent,
     LoginComponent,
     RecuperarContaComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     AngularFireAuthModule,
+    MatDialogModule,
     AngularFireModule.initializeApp({
         apiKey: "AIzaSyAtil3k57oXK8E0opVmZJK3tfpj_I257HI",
         authDomain: "benditaajuda-9479f.firebaseapp.com",

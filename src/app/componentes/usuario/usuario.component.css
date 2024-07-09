@@ -36,6 +36,10 @@ table {
   }
 }
 
+.firebaseId {
+  display: none;
+}
+
 th {
   background-color: cadetblue !important;
 }

@@ -6,6 +6,8 @@ import { Usuario } from '../../model/usuario';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { ModalService } from '../../services/modal.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-usuario',
@@ -14,20 +16,49 @@ import { MatSort } from '@angular/material/sort';
 })
 export class UsuarioComponent {
 
+  idDelete: string = "";
   usuarios: Usuario[] = [];
-  displayedColumns: string[] = ['Nome', 'Email', 'Cargo', 'star'];
+  displayedColumns: string[] = ['firebaseId', 'Nome', 'Email', 'Cargo', 'star'];
   dataSource = new MatTableDataSource<Usuario>(this.usuarios);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private usuarioService: UsuarioService,
               private spinner: NgxSpinnerService,
-              private router: Router) {}
+              private modalService: ModalService,
+              private snackBar: MatSnackBar,) {}
 
   ngOnInit(): void {
     this.spinner.show();
     this.buscarUsuarios();
     this.dataSource.sort = this.sort;
+    console.log("Aqui: ", );
+  }
+
+  async confirmDelete(): Promise<void> {
+    //this.spinner.show();
+    const itemName = this.idDelete // Replace with actual item name or data
+    const confirmed = await this.modalService.openDeleteModal(itemName);
+
+    if (confirmed) {
+      this.spinner.show();
+     this.usuarioService.deleteUsuario(itemName)
+     .then((data: any) => {
+      this.snackBar.open("Deletado com sucesso", "OK", {
+        duration: 5000
+      })
+      this.spinner.hide();
+    },
+    error => {
+      this.snackBar.open("Erro ao deletar", "OK", {
+        duration: 5000
+      })
+      this.spinner.hide();
+    })
+
+    } else {
+      console.log('Delete canceled');
+    }
   }
 
   public buscarUsuarios(): void{
@@ -52,6 +83,10 @@ export class UsuarioComponent {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  pegarId(id: string) {
+    this.idDelete = id;
   }
 
 }
