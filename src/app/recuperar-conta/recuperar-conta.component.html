@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-12 content d-flex justify-content-center align-items-center" style="background-color: #3f51b5">
+          <mat-card class="d-flex justify-content-center align-items-center">
+            <h4>Recuperar Senha</h4>
+            <form [formGroup]="recuperarForm" (ngSubmit)="onSubmit()">
+              <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="usuario" required>
+                <mat-error *ngIf="checkError('usuario', 'required')">Obrigatório</mat-error>
+              </mat-form-field>
+              <button mat-raised-button color="primary" type="submit" [disabled]="!recuperarForm.valid">
+               Recuperar Senha
+              </button>
+            </form>
+            <button (click)="sair()" mat-raised-button>
+              Voltar
+             </button>
+          </mat-card>
+      </div>
+  </div>

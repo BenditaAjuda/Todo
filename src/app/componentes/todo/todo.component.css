@@ -120,7 +120,7 @@ span {
 }
 
 .primeira-coluna {
-  background-color: darkslategrey;
+  background-color: rgb(39, 65, 88);
   border-radius: 10px 0 0 10px;
 }
 
@@ -223,4 +223,8 @@ span {
 
 .card2 p{
     padding: 10px 0;
+}
+
+button {
+  padding: 20px;
 }

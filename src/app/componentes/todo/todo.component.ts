@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Tarefa } from '../model/tarefa';
+import { Tarefa } from '../../model/tarefa';
 
 interface Food {
   value: string;

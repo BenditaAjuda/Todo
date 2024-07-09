@@ -6,9 +6,63 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 body {
   height: 100%;
-  background: linear-gradient(to left, #eeecec, #cdcccf)
+  background-color: #303030;
+
 }
 
-/* .bg-primary {
-  background-color: #3F51B5;
-} */
+:root {
+  /* Indigo palette */
+  --indigo-50: #e8eaf6;
+  --indigo-100: #c5cae9;
+  --indigo-200: #9fa8da;
+  --indigo-300: #7986cb;
+  --indigo-400: #5c6bc0;
+  --indigo-500: #3f51b5;
+  --indigo-600: #3949ab;
+  --indigo-700: #303f9f;
+  --indigo-800: #283593;
+  --indigo-900: #1a237e;
+  --indigo-A100: #8c9eff;
+  --indigo-A200: #536dfe;
+  --indigo-A400: #3d5afe;
+  --indigo-A700: #304ffe;
+
+  /* Common colors */
+  --white: #ffffff;
+  --black: #000000;
+
+  /* Dark theme background and surface colors */
+  --background-color: #121212;
+  --surface-color: #1e1e1e;
+  --divider-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark-theme {
+  /* Set primary indigo colors */
+  --primary-color: var(--indigo-500);
+  --primary-light: var(--indigo-300);
+  --primary-dark: var(--indigo-700);
+  --primary-contrast: var(--white);
+
+  /* Use indigo accent colors */
+  --accent-color: var(--indigo-A200);
+  --accent-light: var(--indigo-A100);
+  --accent-dark: var(--indigo-A400);
+  --accent-contrast: var(--white);
+
+  /* Default Angular Material warn color */
+  --warn-color: #f44336;
+  --warn-light: #ff7961;
+  --warn-dark: #ba000d;
+  --warn-contrast: var(--white);
+
+  /* Set background and surface colors for dark theme */
+  --background-color: var(--background-color);
+  --surface-color: var(--surface-color);
+  --divider-color: var(--divider-color);
+  --text-color: rgba(255, 255, 255, 0.87);
+  --secondary-text-color: rgba(255, 255, 255, 0.54);
+  --disabled-text-color: rgba(255, 255, 255, 0.38);
+
+  color-scheme: dark;
+}

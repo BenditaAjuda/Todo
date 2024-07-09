@@ -1,0 +1,25 @@
+.navbar-title {
+  font-size: 20px;
+  margin-left: 16px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.navbar-links {
+
+}
+
+@media (max-width: 600px) {
+  .navbar-links {
+    display: block;
+  }
+  .spacer {
+    display: none;
+  }
+  .navbar-title {
+    font-size: 12px;
+  }
+}
+

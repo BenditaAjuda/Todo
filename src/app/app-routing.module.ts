@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TodoComponent } from './todo/todo.component';
 import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { RecuperarContaComponent } from './recuperar-conta/recuperar-conta.component';
+import { authguardGuard } from './authguard.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full' },
   {path: 'login', component: LoginComponent },
-  {path: 'home', component: HomeComponent},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'todo', component: TodoComponent},
-  {path: '**', component: NotFoundComponent}
+  {path: 'recuperarConta', component: RecuperarContaComponent },
+  {path: 'componentes', loadChildren: () => import('./componentes/componentes.module').then(m => m.ComponentesModule)}
+  //{path: 'componentes', loadChildren: () => import('./componentes/componentes.module').then(m => m.ComponentesModule), canActivate:[authguardGuard]}
 ];
 
 @NgModule({

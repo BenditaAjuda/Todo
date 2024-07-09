@@ -1,0 +1,41 @@
+.table-container {
+  margin: 20px;
+  overflow-x: auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+}
+
+.mat-cell {
+  padding: 8px;
+}
+
+.mat-paginator {
+  margin-top: 16px;
+}
+
+.mat-table-responsive {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .mat-header-cell, .mat-cell {
+    padding: 4px;
+  }
+  .email {
+    display: none;
+  }
+}
+
+th {
+  background-color: cadetblue !important;
+}

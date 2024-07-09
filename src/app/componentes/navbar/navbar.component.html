@@ -1,0 +1,22 @@
+<mat-toolbar color="primary">
+  <span class="navbar-title">Bendita Ajuda Todo {{ dadosUsuario?.email }}</span>
+  <span class="spacer"></span>
+
+  <mat-menu #menu1="matMenu">
+    <button mat-menu-item routerLink="dashboard">Dashboard</button>
+    <button mat-menu-item routerLink="todo">Todo</button>
+    <button mat-menu-item routerLink="usuarios">Usuários</button>
+  </mat-menu>
+  <button mat-icon-button [matMenuTriggerFor]="menu1">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #menu2="matMenu">
+    <button mat-menu-item (click)="trocarSenha()">Trocar Senha</button>
+    <button mat-menu-item (click)="sair()">Sair</button>
+  </mat-menu>
+  <button mat-icon-button [matMenuTriggerFor]="menu2">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+
+</mat-toolbar>
