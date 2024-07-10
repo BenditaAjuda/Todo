@@ -1,4 +1,5 @@
 export interface Tarefa {
+  idFirebase?: string
   descricao: string;
-  terminada: boolean;
+  usuario: string
 }

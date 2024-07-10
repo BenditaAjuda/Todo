@@ -24,6 +24,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ModalTodoComponent } from './layout/modal-todo/modal-todo.component';
 
 
 
@@ -33,7 +34,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     NotFoundComponent,
     LoginComponent,
     RecuperarContaComponent,
-    ModalComponent
+    ModalComponent,
+    ModalTodoComponent
   ],
   imports: [
     BrowserModule,

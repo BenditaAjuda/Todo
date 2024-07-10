@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
-  <span class="navbar-title">Bendita Ajuda Todo {{ dadosUsuario?.email }}</span>
+  <span class="navbar-title">Bendita Ajuda Todo</span>
+  <span class="navbar-title-mobile">Todo</span>
   <span class="spacer"></span>
+  <span class="user">Olá {{ email }}</span>
 
   <mat-menu #menu1="matMenu">
     <button mat-menu-item routerLink="dashboard">Dashboard</button>

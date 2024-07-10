@@ -32,6 +32,7 @@ export class AuthService {
           this.dadosUsuario.token = res.user?.uid!;
           this.dadosUsuario.email = res.user?.email!;
           localStorage.setItem('token', res.user?.uid!);
+          localStorage.setItem('user', res.user?.email!);
           this.shared.enviarDadosUsuario(this.dadosUsuario);
           this.loggedIn = true;
           this.spinner.hide();

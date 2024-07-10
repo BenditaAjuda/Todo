@@ -43,7 +43,7 @@ export class UsuarioComponent {
     const confirmed = await this.modalService.openDeleteModal(nomeDelete);
 
     if (confirmed) {
-      this.spinner.show();
+     this.spinner.show();
      this.usuarioService.deleteUsuario(itemName)
      .then((data: any) => {
       this.snackBar.open("Deletado com sucesso", "OK", {

@@ -10,14 +10,16 @@ import { DadosUsuario } from '../../model/dados-usuario';
 })
 export class NavbarComponent implements OnInit{
 
-  dadosUsuario?: DadosUsuario;
+  email: string | null = "";
 
   constructor(private router: Router,
               private shared: SharedService
   ) {}
 
   ngOnInit(): void {
-    this.recebeDados();
+    //this.recebeDados();
+    this.router.navigate(['/componentes/home/todo']);
+      this.email = localStorage.getItem('user')
   }
 
   sair() {
@@ -36,7 +38,7 @@ export class NavbarComponent implements OnInit{
         }
         else{
           console.log("Dados1: ", data);
-          this.dadosUsuario = data;
+          //this.dadosUsuario = data;
         }
       }
     })

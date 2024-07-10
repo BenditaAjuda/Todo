@@ -50,9 +50,7 @@ export class AddUsuarioComponent implements OnInit{
       this.snackBar.open("Erro ao adicionar usuario", "OK", {
         duration: 5000
       })
-  })
-
+    })
   }
-
 
 }

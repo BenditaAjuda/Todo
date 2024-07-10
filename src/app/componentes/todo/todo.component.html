@@ -1,6 +1,29 @@
 <div class="container-90 h-100">
   <div class="row h-100">
+
       <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start primeira-coluna">
+        <mat-card class="medium-card">
+          <form [formGroup]="tarefaForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Nome da tarefa</mat-label>
+              <input matInput formControlName="item" placeholder="">
+              <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Usuário</mat-label>
+              <mat-select formControlName="usuario">
+                @for (usuario of usuarios; track usuario) {
+                  <mat-option [value]="usuario.Nome">{{usuario.Nome}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="primary">Adicionar</button>
+            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="accent">Editar</button>
+          </form>
+        </mat-card>
+      </div>
+
+      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start segunda-coluna">
         <mat-card class="medium-card">
           <form [formGroup]="todoForm">
             <mat-form-field appearance="outline">
@@ -9,10 +32,10 @@
               <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
             </mat-form-field>
             <mat-form-field>
-              <mat-label>Favorite food</mat-label>
-              <mat-select>
-                @for (food of foods; track food) {
-                  <mat-option [value]="food.value">{{food.viewValue}}</mat-option>
+              <mat-label>Usuário</mat-label>
+              <mat-select formControlName="usuario">
+                @for (usuario of usuarios; track usuario) {
+                  <mat-option [value]="usuario.Nome">{{usuario.Nome}}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -21,90 +44,53 @@
           </form>
         </mat-card>
       </div>
-      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start segunda-coluna">
-        <div class="example-container">
 
-          <div class="row mb-3">
-            <div class="card">
-                <h4>Tarefas</h4>
-                <p *ngIf="tarefas.length > 0">Quantidade: {{ tarefas.length }}</p>
-            </div>
-          </div>
-
-          <div
-            cdkDropList
-            #todoList="cdkDropList"
-            [cdkDropListData]="tarefas"
-            [cdkDropListConnectedTo]="[emProgressoList]"
-            class="example-list"
-            (cdkDropListDropped)="drop($event)">
-            @for (item of tarefas; track $index;) {
-              <div class="example-box" cdkDrag>{{item.descricao}}
-                <div class="box">
-                  <button mat-icon-button color="warn" (click)="deletarTarefa($index)"><mat-icon>delete</mat-icon></button>
-                  <button mat-icon-button color="primary" (click)="emEdicao(item, $index)"><mat-icon>edit</mat-icon></button>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start segunda-coluna">
-        <div class="example-container">
-
-          <div class="row mb-3">
-            <div class="card">
-                <h4>Em Progresso</h4>
-                <p *ngIf="emProgresso.length > 0">Quantidade: {{ emProgresso.length }}</p>
-            </div>
-          </div>
-
-          <div
-            cdkDropList
-            #emProgressoList="cdkDropList"
-            [cdkDropListData]="emProgresso"
-            [cdkDropListConnectedTo]="[terminadoList]"
-            class="example-list"
-            (cdkDropListDropped)="drop($event)">
-            @for (item of emProgresso; track $index) {
-              <div class="example-box" cdkDrag>{{item.descricao}}
-                <div class="box">
-                  <button mat-icon-button color="warn" (click)="deletarEmProgresso($index)"><mat-icon>delete</mat-icon></button>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-      </div>
       <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start terceira-coluna">
-        <div class="example-container" >
-
-          <div class="row mb-3">
-            <div class="card2">
-                <h4>Terminadas</h4>
-                <p *ngIf="terminadas.length > 0">Quantidade: {{ terminadas.length }}</p>
-            </div>
-          </div>
-
-
-          <div
-            cdkDropList
-            #terminadoList="cdkDropList"
-            [cdkDropListData]="terminadas"
-            [cdkDropListConnectedTo]="[todoList]"
-            class="example-list"
-            (cdkDropListDropped)="drop($event)">
-            @for (item of terminadas; track $index) {
-              <div class="example-box" cdkDrag>{{item.descricao}}
-                <div class="box">
-                  <button mat-icon-button color="warn" (click)="deletarTerminadas($index)"><mat-icon>delete</mat-icon></button>
-                  <button mat-icon-button style="color: #00e676;"><mat-icon>check_circle</mat-icon></button>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
+        <mat-card class="medium-card">
+          <form [formGroup]="todoForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Nome da tarefa</mat-label>
+              <input matInput formControlName="item" placeholder="">
+              <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Usuário</mat-label>
+              <mat-select formControlName="usuario">
+                @for (usuario of usuarios; track usuario) {
+                  <mat-option [value]="usuario.Nome">{{usuario.Nome}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="primary">Adicionar</button>
+            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="accent">Editar</button>
+          </form>
+        </mat-card>
       </div>
+
+      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start quarta-coluna">
+        <mat-card class="medium-card">
+          <form [formGroup]="todoForm">
+            <mat-form-field appearance="outline">
+              <mat-label>Nome da tarefa</mat-label>
+              <input matInput formControlName="item" placeholder="">
+              <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Usuário</mat-label>
+              <mat-select formControlName="usuario">
+                @for (usuario of usuarios; track usuario) {
+                  <mat-option [value]="usuario.Nome">{{usuario.Nome}}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="primary">Adicionar</button>
+            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="accent">Editar</button>
+          </form>
+        </mat-card>
+      </div>
+
   </div>
 </div>
+
+
 
