@@ -6,7 +6,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TodoComponent } from './todo/todo.component';
-import { UsuarioComponent } from './usuario/usuario.component';
+import { UsuarioComponent } from './gerenciar-usuario/usuario/usuario.component';
+import { UpdateUsuarioComponent } from './gerenciar-usuario/update-usuario/update-usuario.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -23,6 +24,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AddUsuarioComponent } from './gerenciar-usuario/add-usuario/add-usuario.component';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     HomeComponent,
     NavbarComponent,
     TodoComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    UpdateUsuarioComponent,
+    AddUsuarioComponent
   ],
   imports: [
     CommonModule,

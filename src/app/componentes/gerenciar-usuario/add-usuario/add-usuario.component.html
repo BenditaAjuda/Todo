@@ -1,0 +1,35 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-12 content d-flex justify-content-center align-items-center" style="background-color: #f1f1f3">
+          <mat-card class="d-flex justify-content-center align-items-center">
+            <h4>Adicionar Usuário</h4>
+            <form [formGroup]="addUsuarioForm" (ngSubmit)="onSubmit()">
+
+              <mat-form-field appearance="fill">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="Nome" required>
+                <mat-error *ngIf="checkError('Nome', 'required')">Obrigatório</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Cargo</mat-label>
+                <input matInput formControlName="Cargo" required>
+                <mat-error *ngIf="checkError('Cargo', 'required')">Obrigatório</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="Email" required>
+                <mat-error *ngIf="checkError('Email', 'required')">Obrigatório</mat-error>
+              </mat-form-field>
+
+              <button mat-raised-button color="primary" type="submit" [disabled]="!addUsuarioForm.valid">
+               Adicionar
+              </button>
+            </form>
+            <button mat-raised-button routerLink="/componentes/home/listar-usuarios">
+              Voltar
+             </button>
+          </mat-card>
+      </div>
+  </div>

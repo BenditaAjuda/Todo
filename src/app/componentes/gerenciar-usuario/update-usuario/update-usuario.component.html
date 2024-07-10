@@ -1,0 +1,67 @@
+<div class="container-fluid" *ngIf="modo === 'update'">
+  <div class="row">
+      <div class="col-12 content d-flex justify-content-center align-items-center" style="background-color: #f1f1f3">
+          <mat-card class="d-flex justify-content-center align-items-center">
+            <h4>Alterar Usuário</h4>
+            <form [formGroup]="updateUsuarioForm" (ngSubmit)="onSubmit()">
+
+              <mat-form-field appearance="fill">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="Nome" required>
+                <mat-error *ngIf="checkError('Nome', 'required')">Obrigatório</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Cargo</mat-label>
+                <input matInput formControlName="Cargo" required>
+                <mat-error *ngIf="checkError('Cargo', 'required')">Obrigatório</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="Email" required>
+                <mat-error *ngIf="checkError('Email', 'required')">Obrigatório</mat-error>
+              </mat-form-field>
+
+              <button mat-raised-button color="primary" type="submit" [disabled]="!updateUsuarioForm.valid">
+                Login
+               </button>
+
+            </form>
+            <button mat-raised-button routerLink="/componentes/home/listar-usuarios">
+              Voltar
+             </button>
+          </mat-card>
+      </div>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="modo === 'show'">
+  <div class="row">
+      <div class="col-12 content d-flex justify-content-center align-items-center" style="background-color: #f1f1f3">
+          <mat-card class="d-flex justify-content-center align-items-center">
+            <h4>Detalhar Usuário</h4>
+
+                <mat-label>Nome</mat-label>
+                <button mat-raised-button color="primary">
+                  {{ usuario?.Nome }}
+                 </button>
+
+                <mat-label>Cargo</mat-label>
+                <button mat-raised-button color="primary">
+                  {{ usuario?.Cargo }}
+                 </button>
+
+                <mat-label>Email</mat-label>
+                <button mat-raised-button color="primary">
+                  {{ usuario?.Email }}
+                 </button>
+
+            <button mat-raised-button routerLink="/componentes/home/listar-usuarios">
+              Voltar
+             </button>
+          </mat-card>
+      </div>
+  </div>
+</div>
+

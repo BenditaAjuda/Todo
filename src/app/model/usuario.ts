@@ -1,6 +1,6 @@
 export interface Usuario {
-  firebaseId: string
-  nome: string;
-  cargo: string;
-  email: string;
+  FirebaseId?: string
+  Nome: string;
+  Cargo: string;
+  Email: string;
 }

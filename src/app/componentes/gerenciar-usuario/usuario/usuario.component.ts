@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { UsuarioService } from '../../services/usuario.service';
+import { UsuarioService } from '../../../services/usuario.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
-import { Usuario } from '../../model/usuario';
+import { Usuario } from '../../../model/usuario';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ModalService } from '../../services/modal.service';
+import { ModalService } from '../../../services/modal.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -16,7 +16,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class UsuarioComponent {
 
-  idDelete: string = "";
+  idUsuario: string = "";
+  nomeDelete: string = "";
   usuarios: Usuario[] = [];
   displayedColumns: string[] = ['firebaseId', 'Nome', 'Email', 'Cargo', 'star'];
   dataSource = new MatTableDataSource<Usuario>(this.usuarios);
@@ -26,7 +27,8 @@ export class UsuarioComponent {
   constructor(private usuarioService: UsuarioService,
               private spinner: NgxSpinnerService,
               private modalService: ModalService,
-              private snackBar: MatSnackBar,) {}
+              private snackBar: MatSnackBar,
+              private router: Router) {}
 
   ngOnInit(): void {
     this.spinner.show();
@@ -36,9 +38,9 @@ export class UsuarioComponent {
   }
 
   async confirmDelete(): Promise<void> {
-    //this.spinner.show();
-    const itemName = this.idDelete // Replace with actual item name or data
-    const confirmed = await this.modalService.openDeleteModal(itemName);
+    const itemName = this.idUsuario;
+    const nomeDelete = this.nomeDelete;
+    const confirmed = await this.modalService.openDeleteModal(nomeDelete);
 
     if (confirmed) {
       this.spinner.show();
@@ -59,6 +61,12 @@ export class UsuarioComponent {
     } else {
       console.log('Delete canceled');
     }
+  }
+
+  updateShow(modo: string) {
+    console.log("Modo", modo);
+    console.log("id", this.idUsuario);
+    this.router.navigate(['/componentes/home/update-usuario', this.idUsuario, modo]);
   }
 
   public buscarUsuarios(): void{
@@ -85,8 +93,9 @@ export class UsuarioComponent {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  pegarId(id: string) {
-    this.idDelete = id;
+  pegarId(id: string, nome: string) {
+    this.idUsuario = id;
+    this.nomeDelete = nome;
   }
 
 }
