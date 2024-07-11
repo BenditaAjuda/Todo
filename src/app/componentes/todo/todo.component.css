@@ -63,3 +63,25 @@ mat-form-field {
 button {
   padding: 20px;
 }
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto; /* Permite rolagem horizontal */
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+th {
+  background-color: cadetblue !important;
+}
+
+
+
+

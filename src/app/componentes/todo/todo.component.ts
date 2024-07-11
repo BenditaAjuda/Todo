@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Tarefa } from '../../model/tarefa';
 import { Usuario } from '../../model/usuario';
@@ -9,6 +9,9 @@ import { TodoService } from '../../services/todo.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalTodoService } from '../../services/modal-todo.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-todo',
@@ -20,16 +23,18 @@ export class TodoComponent {
   tarefaForm: FormGroup = new FormGroup({});
   usuarios: Usuario[] = [];
   edicaoHabilitada: boolean = false;
+  tarefa!: Tarefa;
+  tarefas: Tarefa[] = [];
+  emProgresso: Tarefa[] = [];
+  terminadas: Tarefa[] = [];
+  updateIndex: any;
 
-  // todoForm: FormGroup = new FormGroup({});
-  // tarefas: Tarefa[] = [];
-  // emProgresso: Tarefa[] = [];
-  // terminadas: Tarefa[] = [];
-  // updateIndex: any;
-  // edicaoHabilitada: boolean = false;
-  //
-  // readonly dialog = inject(MatDialog);
-  // tarefa!: Tarefa;
+  idTarefa: string = "";
+  nomeTarefa: string = "";
+  displayedColumnsTarefa: string[] = ['firebaseId', 'descricao', 'usuario', 'star'];
+  dataSourceTarefa = new MatTableDataSource<Tarefa>(this.tarefas);
+  @ViewChild(MatPaginator) paginatorTarefa!: MatPaginator;
+  @ViewChild(MatSort) sortTarefa!: MatSort;
 
   constructor(private formBuilder: FormBuilder,
               private usuarioService: UsuarioService,
@@ -38,70 +43,85 @@ export class TodoComponent {
               private snackBar: MatSnackBar,
               private modalTodoService: ModalTodoService) {}
 
-  ngOnInit(): void {
-    this.inicializarForm();
-    this.spinner.show();
-    this.buscarUsuarios();
-    this.buscarTarefas();
-    this.buscarTarefasEmAndamento();
-    this.buscarTerminadas();
-
+    applyFilterTarefa(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceTarefa.filter = filterValue.trim().toLowerCase();
   }
 
-  inicializarForm() {
+  ngOnInit(): void {
+    this.spinner.show();
+    this.inicializarTarefaForm();
+    this.buscarTarefas();
+    this.buscarUsuarios();
+  }
+
+  inicializarTarefaForm() {
     this.tarefaForm = this.formBuilder.group({
-      item: ['', Validators.required],
+      descricao: ['', Validators.required],
       usuario: ['', Validators.required],
         })
   }
 
-  drop(event: CdkDragDrop<Tarefa[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
-    }
-  }
-
   public checkError = (controlName: string, errorName: string) => {
-    return this.todoForm.controls[controlName].hasError(errorName);
+    return this.tarefaForm.controls[controlName].hasError(errorName);
   }
 
   adicionarTarefa() {
     this.spinner.show();
-    // this.tarefas.push({
-    //   descricao: this.todoForm.value.item,
-    //   terminada: false,
-    //   usuario: this.todoForm.value.usuario
-    // });
-  this.tarefa = {
-    descricao: this.todoForm.value.item,
-    terminada: false,
-    usuario: this.todoForm.value.usuario
-  }
-
-  this.todoService.addTarefa(this.tarefa).then(res => {
-    this.spinner.hide();
-  },
-  err => {
-    this.spinner.hide();
-    this.snackBar.open("Erro ao adicionar tarefa", "OK", {
-      duration: 5000
+    this.tarefa = this.tarefaForm.value;
+    this.todoService.addTarefa(this.tarefa).then(res => {
+      this.spinner.hide();
+    },
+    err => {
+      this.spinner.hide();
+      this.snackBar.open("Erro ao adicionar tarefa", "OK", {
+        duration: 5000
+      })
     })
-  })
-    this.spinner.hide();
-    this.buscarTarefas();
-    this.todoForm.reset();
   }
 
-  deletarTarefa(index: number, id: string) {
-    console.log("Aqui: ", id);
-    this.tarefas.splice(index, 1);
+  passarTarefaParaEmAndamento() {
+    this.deletarTarefa();
+
+  }
+
+  updateTarefa() {
+
+  }
+
+  pegarIdTarefa(id: string) {
+    this.idTarefa = id;
+    console.log(id)
+  }
+
+  deletarTarefa() {
+    this.todoService.deleteTarefa(this.idTarefa)
+    .then((data: any) => {
+     this.snackBar.open("Deletado com sucesso", "OK", {
+       duration: 5000
+     })
+     this.spinner.hide();
+   },
+   error => {
+     this.snackBar.open("Erro ao deletar", "OK", {
+       duration: 5000
+     })
+     this.spinner.hide();
+   })
+  }
+
+  adicionarTarefaEmAndamento() {
+    this.spinner.show();
+    this.tarefa = this.tarefaForm.value;
+    this.todoService.addTarefa(this.tarefa).then(res => {
+      this.spinner.hide();
+    },
+    err => {
+      this.spinner.hide();
+      this.snackBar.open("Erro ao adicionar tarefa", "OK", {
+        duration: 5000
+      })
+    })
   }
 
   deletarEmProgresso(index: number) {
@@ -115,15 +135,14 @@ export class TodoComponent {
   }
 
   editarTarefa() {
-    this.tarefas[this.updateIndex].descricao = this.todoForm.value.item;
-    this.tarefas[this.updateIndex].terminada = false;
-    this.todoForm.reset();
+    this.tarefas[this.updateIndex].descricao = this.tarefaForm.value.item;
+    this.tarefaForm.reset();
     this.updateIndex = undefined;
     this.edicaoHabilitada = false;
   }
 
   emEdicao(tarefa: Tarefa, index: number) {
-    this.todoForm.controls['item'].setValue(tarefa.descricao);
+    this.tarefaForm.controls['item'].setValue(tarefa.descricao);
     this.updateIndex = index;
     this.edicaoHabilitada = true;
   }
@@ -156,10 +175,6 @@ popularTabelas() {
   this.adicionarTabelas("Tarefas", this.tarefas);
   this.adicionarTabelas("EmAndamento", this.emProgresso);
 
-  const updatedUsers = this.terminadas.reduce((acc, terminada) => {
-    acc.push({ ...terminada, terminada: terminada.terminada = true });
-    return acc;
-  }, [] as Tarefa[]);
 
   this.adicionarTabelas("Terminadas", this.terminadas);
 }
@@ -196,8 +211,11 @@ popularTabelas() {
   public buscarTarefas(): void{
     this.todoService.getAlTarefas().subscribe({
       next: (tarefaRecebido: Tarefa[]) => {
-        console.log("Teste:", tarefaRecebido);
         this.tarefas = tarefaRecebido;
+        console.log("Aqui: ", this.tarefas);
+        this.dataSourceTarefa = new MatTableDataSource<Tarefa>(this.tarefas);
+        console.log("Aqui: ", this.dataSourceTarefa);
+        this.dataSourceTarefa.paginator = this.paginatorTarefa;
         this.spinner.hide();
       },
       error: (error: any) => {
@@ -241,6 +259,10 @@ popularTabelas() {
       }
     });
   }
+
+
+
+
 
 }
 

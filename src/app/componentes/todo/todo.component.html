@@ -6,8 +6,8 @@
           <form [formGroup]="tarefaForm">
             <mat-form-field appearance="outline">
               <mat-label>Nome da tarefa</mat-label>
-              <input matInput formControlName="item" placeholder="">
-              <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
+              <input matInput formControlName="descricao" placeholder="">
+              <mat-error *ngIf="checkError('descricao', 'required')">Tarefa obrigatória</mat-error>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Usuário</mat-label>
@@ -24,30 +24,51 @@
       </div>
 
       <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start segunda-coluna">
-        <mat-card class="medium-card">
-          <form [formGroup]="todoForm">
-            <mat-form-field appearance="outline">
-              <mat-label>Nome da tarefa</mat-label>
-              <input matInput formControlName="item" placeholder="">
-              <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Usuário</mat-label>
-              <mat-select formControlName="usuario">
-                @for (usuario of usuarios; track usuario) {
-                  <mat-option [value]="usuario.Nome">{{usuario.Nome}}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="primary">Adicionar</button>
-            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="accent">Editar</button>
-          </form>
-        </mat-card>
+        <div class="mat-elevation-z8 table">
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Busca</mat-label>
+            <input matInput (keyup)="applyFilterTarefa($event)" placeholder="Ex. Name">
+          </mat-form-field>
+          <h2>Tarefas</h2>
+          <table mat-table [dataSource]="dataSourceTarefa" matSort>
+
+            <ng-container matColumnDef="firebaseId">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="firebaseId">Id</th>
+              <td mat-cell *matCellDef="let element" class="firebaseId">{{element.firebaseId}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="descricao">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Descricao</th>
+              <td mat-cell *matCellDef="let element">{{element.descricao}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="usuario">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="email">Usuário</th>
+              <td mat-cell *matCellDef="let element" class="email">{{element.usuario}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="star">
+              <th mat-header-cell *matHeaderCellDef>Opções</th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu" (click)="pegarIdTarefa(element.firebaseId)">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsTarefa"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsTarefa;"></tr>
+          </table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+        </div>
       </div>
 
-      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start terceira-coluna">
+      <!-- <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start terceira-coluna">
         <mat-card class="medium-card">
-          <form [formGroup]="todoForm">
+          <form [formGroup]="tarefaForm">
             <mat-form-field appearance="outline">
               <mat-label>Nome da tarefa</mat-label>
               <input matInput formControlName="item" placeholder="">
@@ -61,15 +82,15 @@
                 }
               </mat-select>
             </mat-form-field>
-            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="primary">Adicionar</button>
-            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="accent">Editar</button>
+            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="primary">Adicionar</button>
+            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="accent">Editar</button>
           </form>
         </mat-card>
-      </div>
+      </div> -->
 
-      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start quarta-coluna">
+      <!-- <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start quarta-coluna">
         <mat-card class="medium-card">
-          <form [formGroup]="todoForm">
+          <form [formGroup]="tarefaForm">
             <mat-form-field appearance="outline">
               <mat-label>Nome da tarefa</mat-label>
               <input matInput formControlName="item" placeholder="">
@@ -83,14 +104,27 @@
                 }
               </mat-select>
             </mat-form-field>
-            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="primary">Adicionar</button>
-            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="todoForm.invalid" color="accent">Editar</button>
+            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="primary">Adicionar</button>
+            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="accent">Editar</button>
           </form>
         </mat-card>
-      </div>
+      </div> -->
 
   </div>
 </div>
 
-
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="passarTarefaParaEmAndamento()">
+    <mat-icon>forward</mat-icon>
+    <span>Em Andamento</span>
+  </button>
+  <button mat-menu-item (click)="confirmDelete()">
+    <mat-icon>delete</mat-icon>
+    <span>Deletar</span>
+  </button>
+  <button mat-menu-item (click)="updateTarefa()">
+    <mat-icon>update</mat-icon>
+    <span>Alterar</span>
+  </button>
+</mat-menu>
 
