@@ -6,12 +6,12 @@
           <form [formGroup]="tarefaForm">
             <mat-form-field appearance="outline">
               <mat-label>Nome da tarefa</mat-label>
-              <input matInput formControlName="descricao" placeholder="">
-              <mat-error *ngIf="checkError('descricao', 'required')">Tarefa obrigatória</mat-error>
+              <input matInput formControlName="DescricaoTarefa" placeholder="">
+              <mat-error *ngIf="checkError('DescricaoTarefa', 'required')">Tarefa obrigatória</mat-error>
             </mat-form-field>
             <mat-form-field>
               <mat-label>Usuário</mat-label>
-              <mat-select formControlName="usuario">
+              <mat-select formControlName="UsuarioTarefa">
                 @for (usuario of usuarios; track usuario) {
                   <mat-option [value]="usuario.Nome">{{usuario.Nome}}</mat-option>
                 }
@@ -26,32 +26,33 @@
       <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start segunda-coluna">
         <div class="mat-elevation-z8 table">
 
+          <h2>Tarefas</h2>
+
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>Busca</mat-label>
             <input matInput (keyup)="applyFilterTarefa($event)" placeholder="Ex. Name">
           </mat-form-field>
-          <h2>Tarefas</h2>
           <table mat-table [dataSource]="dataSourceTarefa" matSort>
 
-            <ng-container matColumnDef="firebaseId">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="firebaseId">Id</th>
-              <td mat-cell *matCellDef="let element" class="firebaseId">{{element.firebaseId}}</td>
+            <ng-container matColumnDef="firebaseIdTarefa">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="id">Id</th>
+              <td mat-cell *matCellDef="let element"  class="id">{{element.firebaseIdTarefa}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="descricao">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Descricao</th>
-              <td mat-cell *matCellDef="let element">{{element.descricao}}</td>
+            <ng-container matColumnDef="DescricaoTarefa">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tarefa">Descricao</th>
+              <td mat-cell *matCellDef="let element">{{element.DescricaoTarefa}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="usuario">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header class="email">Usuário</th>
-              <td mat-cell *matCellDef="let element" class="email">{{element.usuario}}</td>
+            <ng-container matColumnDef="UsuarioTarefa">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="tarefa">Usuário</th>
+              <td mat-cell *matCellDef="let element">{{element.UsuarioTarefa}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="star">
-              <th mat-header-cell *matHeaderCellDef>Opções</th>
+            <ng-container matColumnDef="opcoes">
+              <th mat-header-cell *matHeaderCellDef class="tarefa">Opções</th>
               <td mat-cell *matCellDef="let element">
-                <button mat-icon-button [matMenuTriggerFor]="menu" (click)="pegarIdTarefa(element.firebaseId)">
+                <button mat-icon-button [matMenuTriggerFor]="menu" (click)="pegarIdTarefa(element.firebaseIdTarefa)">
                   <mat-icon>more_vert</mat-icon>
                 </button>
               </td>
@@ -60,69 +61,122 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumnsTarefa"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumnsTarefa;"></tr>
           </table>
-
-          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-
+          <mat-paginator #paginator1 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
         </div>
       </div>
 
-      <!-- <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start terceira-coluna">
-        <mat-card class="medium-card">
-          <form [formGroup]="tarefaForm">
-            <mat-form-field appearance="outline">
-              <mat-label>Nome da tarefa</mat-label>
-              <input matInput formControlName="item" placeholder="">
-              <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Usuário</mat-label>
-              <mat-select formControlName="usuario">
-                @for (usuario of usuarios; track usuario) {
-                  <mat-option [value]="usuario.Nome">{{usuario.Nome}}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="primary">Adicionar</button>
-            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="accent">Editar</button>
-          </form>
-        </mat-card>
-      </div> -->
+      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start terceira-coluna">
+        <div class="mat-elevation-z8 table">
 
-      <!-- <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start quarta-coluna">
-        <mat-card class="medium-card">
-          <form [formGroup]="tarefaForm">
-            <mat-form-field appearance="outline">
-              <mat-label>Nome da tarefa</mat-label>
-              <input matInput formControlName="item" placeholder="">
-              <mat-error *ngIf="checkError('item', 'required')">Tarefa obrigatória</mat-error>
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Usuário</mat-label>
-              <mat-select formControlName="usuario">
-                @for (usuario of usuarios; track usuario) {
-                  <mat-option [value]="usuario.Nome">{{usuario.Nome}}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="primary">Adicionar</button>
-            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="accent">Editar</button>
-          </form>
-        </mat-card>
-      </div> -->
+          <h2>Em Progresso</h2>
 
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Busca</mat-label>
+              <input matInput (keyup)="applyFilterTarefaEmAndamento($event)" placeholder="Ex. Name">
+            </mat-form-field>
+
+          <table mat-table [dataSource]="dataSourceTarefaEmAndamento" matSort>
+
+            <ng-container matColumnDef="firebaseIdTarefaEmAndamento">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="id">Id</th>
+              <td mat-cell *matCellDef="let element" class="id">{{element.firebaseIdTarefaEmAndamento}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="DescricaoTarefaEmAndamento">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="emAndamento">Descricao</th>
+              <td mat-cell *matCellDef="let element">{{element.DescricaoTarefaEmAndamento}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="UsuarioTarefaEmAndamento">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="emAndamento">Usuário</th>
+              <td mat-cell *matCellDef="let element">{{element.UsuarioTarefaEmAndamento}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="opcoes">
+              <th mat-header-cell *matHeaderCellDef class="emAndamento">Opções</th>
+              <td mat-cell *matCellDef="let element" (click)="pegarIdTarefaEmAndamento(element.firebaseIdTarefaEmAndamento)">
+                <button mat-icon-button [matMenuTriggerFor]="menu2">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsTarefaEmAndamento"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsTarefaEmAndamento;"></tr>
+          </table>
+          <mat-paginator #paginator2 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-12 text-white d-flex justify-content-center align-items-start quarta-coluna">
+        <div class="mat-elevation-z8 table">
+
+          <h2>Finalizadas</h2>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Busca</mat-label>
+            <input matInput (keyup)="applyFilterTarefaFinalizada($event)" placeholder="Ex. Name">
+          </mat-form-field>
+          <table mat-table [dataSource]="dataSourceTarefaFinalizada" matSort>
+
+            <ng-container matColumnDef="firebaseIdTarefaFinalizada">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="id">Id</th>
+              <td mat-cell *matCellDef="let element" class="id">{{element.firebaseIdTarefaFinalizada}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="DescricaoTarefaFinalizada">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Descricao</th>
+              <td mat-cell *matCellDef="let element">{{element.DescricaoTarefaFinalizada}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="UsuarioTarefaFinalizada">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuário</th>
+              <td mat-cell *matCellDef="let element">{{element.UsuarioTarefaFinalizada}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="opcoes">
+              <th mat-header-cell *matHeaderCellDef>Opções</th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu2">
+                  <mat-icon style="color: rgb(109, 223, 170);">check_circle</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsTarefaFinalizada"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsTarefaFinalizada;"></tr>
+          </table>
+          <mat-paginator #paginator3 [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
   </div>
 </div>
 
 <mat-menu #menu="matMenu">
-  <button mat-menu-item (click)="passarTarefaParaEmAndamento()">
+  <button mat-menu-item (click)="mudarParaEmAndamento()">
     <mat-icon>forward</mat-icon>
     <span>Em Andamento</span>
   </button>
-  <button mat-menu-item (click)="confirmDelete()">
+  <button mat-menu-item>
     <mat-icon>delete</mat-icon>
     <span>Deletar</span>
   </button>
-  <button mat-menu-item (click)="updateTarefa()">
+  <button mat-menu-item>
+    <mat-icon>update</mat-icon>
+    <span>Alterar</span>
+  </button>
+</mat-menu>
+
+<mat-menu #menu2="matMenu">
+  <button mat-menu-item (click)="mudarParaFinalizada()">
+    <mat-icon>forward</mat-icon>
+    <span>Finalizar</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>delete</mat-icon>
+    <span>Deletar</span>
+  </button>
+  <button mat-menu-item>
     <mat-icon>update</mat-icon>
     <span>Alterar</span>
   </button>

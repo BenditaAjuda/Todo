@@ -1,5 +1,5 @@
 export interface Tarefa {
-  idFirebase?: string
-  descricao: string;
-  usuario: string
+  idFirebaseTarefa?: string
+  DescricaoTarefa: string;
+  UsuarioTarefa: string
 }
