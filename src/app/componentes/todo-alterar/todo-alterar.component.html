@@ -1,0 +1,34 @@
+<div class="container-fluid" *ngIf="tipo === 'tarefa'">
+  <div class="row">
+      <div class="col-12 content d-flex justify-content-center align-items-center" style="background-color: #f1f1f3">
+          <mat-card class="d-flex justify-content-center align-items-center">
+            <h4>Alterar Tarefa</h4>
+            <form [formGroup]="updateTodoForm" (ngSubmit)="onSubmit()">
+
+              <mat-form-field appearance="fill">
+                <mat-label>Descricao</mat-label>
+                <input matInput formControlName="DescricaoTarefa" required>
+                <mat-error *ngIf="checkError('DescricaoTarefa', 'required')">Obrigatório</mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Usuário</mat-label>
+                <mat-select formControlName="UsuarioTarefa">
+                  @for (usuario of usuarios; track usuario) {
+                    <mat-option [value]="usuario.Nome">{{usuario.Nome}}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <button mat-raised-button color="primary" type="submit" [disabled]="!updateTodoForm.valid">
+                Alterar
+               </button>
+
+            </form>
+            <button mat-raised-button routerLink="/componentes/home/todo">
+              Voltar
+             </button>
+          </mat-card>
+      </div>
+  </div>
+</div>

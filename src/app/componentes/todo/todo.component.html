@@ -17,8 +17,7 @@
                 }
               </mat-select>
             </mat-form-field>
-            <button *ngIf="!edicaoHabilitada" (click)="adicionarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="primary">Adicionar</button>
-            <button *ngIf="edicaoHabilitada" (click)="editarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="accent">Editar</button>
+            <button (click)="adicionarTarefa()" mat-raised-button [disabled]="tarefaForm.invalid" color="primary">Adicionar</button>
           </form>
         </mat-card>
       </div>
@@ -36,7 +35,7 @@
 
             <ng-container matColumnDef="firebaseIdTarefa">
               <th mat-header-cell *matHeaderCellDef mat-sort-header class="id">Id</th>
-              <td mat-cell *matCellDef="let element"  class="id">{{element.firebaseIdTarefa}}</td>
+              <td mat-cell *matCellDef="let element" class="id">{{element.firebaseIdTarefa}}</td>
             </ng-container>
 
             <ng-container matColumnDef="DescricaoTarefa">
@@ -137,8 +136,11 @@
             <ng-container matColumnDef="opcoes">
               <th mat-header-cell *matHeaderCellDef>Opções</th>
               <td mat-cell *matCellDef="let element">
-                <button mat-icon-button [matMenuTriggerFor]="menu2">
+                <button mat-icon-button>
                   <mat-icon style="color: rgb(109, 223, 170);">check_circle</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deletarTarefaFinalizada(element.firebaseIdTarefaFinalizada)">
+                  <mat-icon color="warn">delete</mat-icon>
                 </button>
               </td>
             </ng-container>
@@ -157,11 +159,11 @@
     <mat-icon>forward</mat-icon>
     <span>Em Andamento</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item (click)="deletarTarefa()">
     <mat-icon>delete</mat-icon>
     <span>Deletar</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item (click)="updateTarefa()">
     <mat-icon>update</mat-icon>
     <span>Alterar</span>
   </button>
@@ -172,7 +174,7 @@
     <mat-icon>forward</mat-icon>
     <span>Finalizar</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item (click)="deletarTarefaEmAndamento()">
     <mat-icon>delete</mat-icon>
     <span>Deletar</span>
   </button>

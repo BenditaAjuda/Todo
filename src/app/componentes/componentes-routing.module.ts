@@ -6,6 +6,7 @@ import { TodoComponent } from './todo/todo.component';
 import { UsuarioComponent } from './gerenciar-usuario/usuario/usuario.component';
 import { UpdateUsuarioComponent } from './gerenciar-usuario/update-usuario/update-usuario.component';
 import { AddUsuarioComponent } from './gerenciar-usuario/add-usuario/add-usuario.component';
+import { TodoAlterarComponent } from './todo-alterar/todo-alterar.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
       {path: 'listar-usuarios', component: UsuarioComponent},
       {path: 'update-usuario/:id/:mode', component: UpdateUsuarioComponent},
       {path: 'add-usuario', component: AddUsuarioComponent},
+      {path: 'update-tarefa/:id/:tipo', component: TodoAlterarComponent},
     ],
    },
 ];

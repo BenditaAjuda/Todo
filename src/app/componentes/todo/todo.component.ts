@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { TarefaEmAndamento } from '../../model/tarefa-andamento';
 import { TarefaFinalizada } from '../../model/tarefa-finalizada';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-todo',
@@ -56,7 +57,8 @@ export class TodoComponent implements OnInit {
               private usuarioService: UsuarioService,
               private spinner: NgxSpinnerService,
               private todoService: TodoService,
-              private snackBar: MatSnackBar) {}
+              private snackBar: MatSnackBar,
+              private router: Router) {}
 
 
 
@@ -163,6 +165,7 @@ export class TodoComponent implements OnInit {
   }
 
   mudarParaEmAndamento() {
+    this.spinner.show();
     this.todoService.getTarefaById(this.idTarefa).subscribe({
       next: (tarefeRecebida: Tarefa) => {
         this.tarefaTransicao = tarefeRecebida;
@@ -232,6 +235,7 @@ export class TodoComponent implements OnInit {
   }
 
   mudarParaFinalizada() {
+    this.spinner.show();
     this.todoService.getTarefaEmAndamentoById(this.idTarefaEmAndamento).subscribe({
       next: (tarefeRecebida: TarefaEmAndamento) => {
         this.tarefaTransicao2 = tarefeRecebida;
@@ -273,8 +277,47 @@ export class TodoComponent implements OnInit {
     });
   }
 
-  editarTarefa() {
+  deletarTarefaFinalizada(id: string) {
+    this.spinner.show();
+    this.todoService.deleteTarefaFinalizada(id).then(res => {
+      this.spinner.hide();
+      },
+        err => {
+          this.spinner.hide();
+          this.snackBar.open("Erro ao deletar tarefa", "OK", {
+          duration: 5000
+        })
+      })
+  }
 
+  deletarTarefa() {
+    this.spinner.show();
+    this.todoService.deleteTarefa(this.idTarefa).then(res => {
+      this.spinner.hide();
+      },
+        err => {
+          this.spinner.hide();
+          this.snackBar.open("Erro ao deletar tarefa", "OK", {
+          duration: 5000
+        })
+      })
+  }
+
+  deletarTarefaEmAndamento() {
+    this.spinner.show();
+    this.todoService.deleteTarefaEmAndamento(this.idTarefaEmAndamento).then(res => {
+      this.spinner.hide();
+      },
+        err => {
+          this.spinner.hide();
+          this.snackBar.open("Erro ao deletar tarefa", "OK", {
+          duration: 5000
+        })
+      })
+  }
+
+  updateTarefa() {
+    this.router.navigate(['/componentes/home/update-tarefa', this.idTarefa, "tarefa"]);
   }
 
 }

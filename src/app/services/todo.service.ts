@@ -32,6 +32,10 @@ deleteTarefaEmAndamento(tarefaId: string) {
   return this.firestore.collection('TarefaEmAndamento').doc(tarefaId).delete();
 }
 
+deleteTarefaFinalizada(tarefaId: string) {
+  return this.firestore.collection('TarefaFinalizada').doc(tarefaId).delete();
+}
+
 getTarefaById(id: string): Observable<Tarefa> {
   return this.firestore
     .collection<Tarefa>('Tarefas')
@@ -67,6 +71,10 @@ getTarefaEmAndamentoById(id: string): Observable<TarefaEmAndamento> {
   getAllTerminadas() {
     return this.firestore.collection('TarefaFinalizada', terminadas => terminadas.orderBy('DescricaoTarefaFinalizada'))
       .valueChanges({idField: 'firebaseIdTarefaFinalizada'}) as Observable<any[]>;
+  }
+
+  upDateTarefa(tarefaId: string, tarefa: Tarefa) {
+    return this.firestore.collection('Tarefas').doc(tarefaId).update(tarefa);
   }
 
   // metodos que salvan array de objetos e deletam tables

@@ -26,6 +26,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
+import { TodoAlterarComponent } from './todo-alterar/todo-alterar.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     TodoComponent,
     UsuarioComponent,
     UpdateUsuarioComponent,
-    AddUsuarioComponent
+    AddUsuarioComponent,
+    TodoAlterarComponent
   ],
   imports: [
     CommonModule,
