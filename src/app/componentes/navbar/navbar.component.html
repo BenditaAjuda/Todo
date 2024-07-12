@@ -5,9 +5,9 @@
   <span class="user">Olá {{ email }}</span>
 
   <mat-menu #menu1="matMenu">
-    <button mat-menu-item routerLink="dashboard">Dashboard</button>
     <button mat-menu-item routerLink="todo">Todo</button>
     <button mat-menu-item routerLink="listar-usuarios">Usuários</button>
+    <button mat-menu-item routerLink="tarefas">Tarefas</button>
   </mat-menu>
   <button mat-icon-button [matMenuTriggerFor]="menu1">
     <mat-icon>menu</mat-icon>

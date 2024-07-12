@@ -9,6 +9,8 @@ import { TodoComponent } from './todo/todo.component';
 import { UsuarioComponent } from './gerenciar-usuario/usuario/usuario.component';
 import { UpdateUsuarioComponent } from './gerenciar-usuario/update-usuario/update-usuario.component';
 import { AddUsuarioComponent } from './gerenciar-usuario/add-usuario/add-usuario.component';
+import { TodoAlterarComponent } from './todo-alterar/todo-alterar.component';
+import { TarefasComponent } from './tarefas/tarefas.component';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -25,8 +27,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatDialogModule} from '@angular/material/dialog';
-import { TodoAlterarComponent } from './todo-alterar/todo-alterar.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { TodoAlterarComponent } from './todo-alterar/todo-alterar.component';
     UsuarioComponent,
     UpdateUsuarioComponent,
     AddUsuarioComponent,
-    TodoAlterarComponent
+    TodoAlterarComponent,
+    TarefasComponent
   ],
   imports: [
     CommonModule,

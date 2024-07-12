@@ -47,10 +47,8 @@ export class UpdateUsuarioComponent implements OnInit{
         next: (response: Usuario) => {
           this.updateUsuarioForm.patchValue(response);
           this.usuario = response;
-          console.log("Aqui", this.usuario);
         },
         error: (erro: any) => {
-          console.log(erro.error);
         }
       })
     }

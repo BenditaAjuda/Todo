@@ -77,6 +77,10 @@ getTarefaEmAndamentoById(id: string): Observable<TarefaEmAndamento> {
     return this.firestore.collection('Tarefas').doc(tarefaId).update(tarefa);
   }
 
+  upDateTarefaEmAndamento(tarefaId: string, tarefa: TarefaEmAndamento) {
+    return this.firestore.collection('TarefaEmAndamento').doc(tarefaId).update(tarefa);
+  }
+
   // metodos que salvan array de objetos e deletam tables
   // async deleteAllDocuments(collectionName: string): Promise<void> {
   //   const collectionRef = this.firestore.collection(collectionName).ref;

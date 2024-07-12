@@ -1,0 +1,67 @@
+.table-container {
+  margin: 20px;
+  overflow-x: auto;
+}
+
+.full-width {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+}
+
+.mat-cell {
+  padding: 8px;
+}
+
+.mat-paginator {
+  margin-top: 16px;
+}
+
+.mat-table-responsive {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .mat-header-cell, .mat-cell {
+    padding: 4px;
+  }
+  .email {
+    display: none;
+  }
+}
+
+.firebaseId {
+  display: none;
+}
+
+th {
+  background-color: cadetblue !important;
+}
+
+.class1 {
+  background-color: rgb(177, 94, 94);
+  color: aliceblue;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.class2 {
+  background-color: rgb(107, 83, 155);
+  color: aliceblue;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.class3 {
+  background-color: rgb(92, 150, 100);
+  color: aliceblue;
+  padding: 5px;
+  border-radius: 5px;
+}
+

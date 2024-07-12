@@ -159,13 +159,13 @@
     <mat-icon>forward</mat-icon>
     <span>Em Andamento</span>
   </button>
-  <button mat-menu-item (click)="deletarTarefa()">
+  <button mat-menu-item (click)="confirmDeletarTarefa()">
     <mat-icon>delete</mat-icon>
     <span>Deletar</span>
   </button>
   <button mat-menu-item (click)="updateTarefa()">
     <mat-icon>update</mat-icon>
-    <span>Alterar</span>
+    <span>Alterar/Atribuir</span>
   </button>
 </mat-menu>
 
@@ -174,11 +174,11 @@
     <mat-icon>forward</mat-icon>
     <span>Finalizar</span>
   </button>
-  <button mat-menu-item (click)="deletarTarefaEmAndamento()">
+  <button mat-menu-item (click)="confirmDeletarTarefaEmAndamento()">
     <mat-icon>delete</mat-icon>
     <span>Deletar</span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item (click)="updateTarefaEmAndamento()">
     <mat-icon>update</mat-icon>
     <span>Alterar</span>
   </button>

@@ -34,7 +34,6 @@ export class UsuarioComponent {
     this.spinner.show();
     this.buscarUsuarios();
     this.dataSource.sort = this.sort;
-    console.log("Aqui: ", );
   }
 
   async confirmDelete(): Promise<void> {
@@ -64,8 +63,6 @@ export class UsuarioComponent {
   }
 
   updateShow(modo: string) {
-    console.log("Modo", modo);
-    console.log("id", this.idUsuario);
     this.router.navigate(['/componentes/home/update-usuario', this.idUsuario, modo]);
   }
 
@@ -75,11 +72,9 @@ export class UsuarioComponent {
         this.usuarios = usuarioRecebido;
         this.dataSource = new MatTableDataSource<Usuario>(this.usuarios);
         this.dataSource.paginator = this.paginator;
-        console.log("Aqui: ", this.usuarios);
         this.spinner.hide();
       },
       error: (error: any) => {
-        console.log("Erro: ", error.error);
         this.spinner.hide();
       },
       complete: () => {

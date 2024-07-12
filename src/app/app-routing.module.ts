@@ -8,8 +8,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full' },
   {path: 'login', component: LoginComponent },
   {path: 'recuperarConta', component: RecuperarContaComponent },
-  {path: 'componentes', loadChildren: () => import('./componentes/componentes.module').then(m => m.ComponentesModule)}
-  //{path: 'componentes', loadChildren: () => import('./componentes/componentes.module').then(m => m.ComponentesModule), canActivate:[authguardGuard]}
+  {path: 'componentes', loadChildren: () => import('./componentes/componentes.module').then(m => m.ComponentesModule), canActivate:[authguardGuard]}
 ];
 
 @NgModule({

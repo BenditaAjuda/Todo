@@ -37,7 +37,6 @@ export class AuthService {
           this.loggedIn = true;
           this.spinner.hide();
           this.router.navigate(['componentes']);
-          console.log("Img: ", res);
       },
       err => {
         this.spinner.hide();
@@ -48,7 +47,6 @@ export class AuthService {
   }
 
   recoverPassword(email: string): Observable<void> {
-    console.log("Aqui: ", email)
     return from(this.auth.sendPasswordResetEmail(email));
   }
 

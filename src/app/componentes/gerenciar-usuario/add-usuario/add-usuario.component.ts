@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../../model/usuario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { UsuarioService } from '../../../services/usuario.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -40,7 +40,6 @@ export class AddUsuarioComponent implements OnInit{
   onSubmit() {
     this.spinner.show();
     this.usuario = this.addUsuarioForm.value;
-    console.log(this.usuario);
     this.usuarioService.addUsuario(this.usuario).then(res => {
       this.spinner.hide();
       this.router.navigate(['/componentes/home/listar-usuarios']);

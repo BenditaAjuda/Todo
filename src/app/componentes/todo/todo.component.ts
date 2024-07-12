@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Tarefa } from '../../model/tarefa';
 import { Usuario } from '../../model/usuario';
@@ -12,6 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { TarefaEmAndamento } from '../../model/tarefa-andamento';
 import { TarefaFinalizada } from '../../model/tarefa-finalizada';
 import { Router } from '@angular/router';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-todo',
@@ -58,10 +59,8 @@ export class TodoComponent implements OnInit {
               private spinner: NgxSpinnerService,
               private todoService: TodoService,
               private snackBar: MatSnackBar,
+              private modalService: ModalService,
               private router: Router) {}
-
-
-
 
     applyFilterTarefa(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -83,7 +82,7 @@ export class TodoComponent implements OnInit {
   inicializarTarefaForm() {
     this.tarefaForm = this.formBuilder.group({
       DescricaoTarefa: ['', Validators.required],
-      UsuarioTarefa: ['', Validators.required],
+      UsuarioTarefa: [''],
         })
   }
 
@@ -101,6 +100,9 @@ export class TodoComponent implements OnInit {
       },
       error: (error: any) => {
         this.spinner.hide();
+        this.snackBar.open("Erro buscar tarefa", "OK", {
+          duration: 5000
+        })
       },
       complete: () => {
         this.spinner.hide();
@@ -135,6 +137,9 @@ export class TodoComponent implements OnInit {
       },
       error: (error: any) => {
         this.spinner.hide();
+        this.snackBar.open("Erro ao buscar usuarios", "OK", {
+          duration: 5000
+        })
       },
       complete: () => {
         this.spinner.hide();
@@ -160,6 +165,9 @@ export class TodoComponent implements OnInit {
       },
       complete: () => {
         this.spinner.hide();
+        this.snackBar.open("Erro ao buscar tarefa", "OK", {
+          duration: 5000
+        })
       }
     });
   }
@@ -222,6 +230,9 @@ export class TodoComponent implements OnInit {
       },
       error: (error: any) => {
         this.spinner.hide();
+        this.snackBar.open("Erro ao buscar tarefa", "OK", {
+          duration: 5000
+        })
       },
       complete: () => {
         this.spinner.hide();
@@ -277,47 +288,69 @@ export class TodoComponent implements OnInit {
     });
   }
 
-  deletarTarefaFinalizada(id: string) {
-    this.spinner.show();
-    this.todoService.deleteTarefaFinalizada(id).then(res => {
-      this.spinner.hide();
-      },
-        err => {
-          this.spinner.hide();
-          this.snackBar.open("Erro ao deletar tarefa", "OK", {
-          duration: 5000
+  async deletarTarefaFinalizada(id: string): Promise<void> {
+    const nomeDelete = "Tarefa";
+    const confirmed = await this.modalService.openDeleteModal(nomeDelete);
+
+    if (confirmed) {
+      this.todoService.deleteTarefaFinalizada(id).then(res => {
+        this.spinner.hide();
+        },
+          err => {
+            this.spinner.hide();
+            this.snackBar.open("Erro ao deletar tarefa", "OK", {
+            duration: 5000
+          })
         })
-      })
+    } else {
+      console.log('Delete canceled');
+    }
   }
 
-  deletarTarefa() {
-    this.spinner.show();
-    this.todoService.deleteTarefa(this.idTarefa).then(res => {
-      this.spinner.hide();
-      },
-        err => {
-          this.spinner.hide();
-          this.snackBar.open("Erro ao deletar tarefa", "OK", {
-          duration: 5000
+  async confirmDeletarTarefa(): Promise<void> {
+    const nomeDelete = "Tarefa";
+    const confirmed = await this.modalService.openDeleteModal(nomeDelete);
+
+    if (confirmed) {
+      this.todoService.deleteTarefa(this.idTarefa).then(res => {
+        this.spinner.hide();
+        },
+          err => {
+            this.spinner.hide();
+            this.snackBar.open("Erro ao deletar tarefa", "OK", {
+            duration: 5000
+          })
         })
-      })
+    } else {
+      console.log('Delete canceled');
+    }
   }
 
-  deletarTarefaEmAndamento() {
-    this.spinner.show();
-    this.todoService.deleteTarefaEmAndamento(this.idTarefaEmAndamento).then(res => {
-      this.spinner.hide();
-      },
-        err => {
-          this.spinner.hide();
-          this.snackBar.open("Erro ao deletar tarefa", "OK", {
-          duration: 5000
+  async confirmDeletarTarefaEmAndamento(): Promise<void> {
+    const nomeDelete = "Tarefa";
+    const confirmed = await this.modalService.openDeleteModal(nomeDelete);
+
+    if (confirmed) {
+      this.todoService.deleteTarefaEmAndamento(this.idTarefaEmAndamento).then(res => {
+        this.spinner.hide();
+        },
+          err => {
+            this.spinner.hide();
+            this.snackBar.open("Erro ao deletar tarefa", "OK", {
+            duration: 5000
+          })
         })
-      })
+    } else {
+      console.log('Delete canceled');
+    }
   }
 
   updateTarefa() {
     this.router.navigate(['/componentes/home/update-tarefa', this.idTarefa, "tarefa"]);
+  }
+
+  updateTarefaEmAndamento() {
+    this.router.navigate(['/componentes/home/update-tarefa', this.idTarefaEmAndamento, "tarefaEmAndamento"]);
   }
 
 }
